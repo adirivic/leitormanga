@@ -17,11 +17,69 @@
         <script src="bootstrap.min.js"></script>
         
         <style>
-        
+        	
         </style>
         
         <script type="text/javascript">
-                
+        	
+        	function loadImage(){
+        		
+        		var manga  = $('#manga').val();
+        		var pagina = $('#pagina').val();
+        		
+        		while(manga.length < 3){
+        			manga = "0" + manga; 
+        		}
+        		
+        		while(pagina.length < 2){
+        			pagina  = "0" + pagina;
+        		}
+        		
+        		var url1 = "http://img.mangahost.com/br/images/naruto/" + manga + "/" + pagina +".png";
+        		
+        		var proximaPagina = (parseInt(pagina) + 1) + "";
+        		
+        		while(proximaPagina.length < 2){
+        			proximaPagina  = "0" + proximaPagina;
+        		}
+        		
+        		var url2 = "http://img.mangahost.com/br/images/naruto/" + manga + "/" + pagina + "-" +  proximaPagina + ".png";
+        		
+        		$("#img").html("<img src='" + url1 + "'><img src='" + url2 + "'>")
+        		
+        		
+        		
+        	}
+        	
+        	function escuro(){
+        		$('body, #img').css("background-color", "black");
+        	}
+        	
+        	function claro(){
+        		$('body, #img').css("background-color", "");
+        	}
+        	
+        	$(function(){
+
+	        	$('#paginaVai').click(function(){
+	        		var pagina = parseInt($('#pagina').val());
+	        		pagina = pagina + 1;
+	       			$('#pagina').val(pagina + "");
+	        		
+	        		loadImage()
+	        	});
+	        	
+	        	$('#paginaVolta').click(function(){
+	        		var pagina = parseInt($('#pagina').val());
+	        		pagina = pagina - 1;
+	       			$('#pagina').val(pagina + "");
+	        		
+	        		loadImage()
+	        	});
+        		
+        	});
+        	
+        	
             
         </script>
               
@@ -30,33 +88,31 @@
     
     <body>
         <div class="content">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    selecione
-                    
-                    
-                    
-                </div>
-                <form method="get">
-                    <div class="panel-body">
+	                <form method="get">
+	                    <div class="panel-body">
+	
+	                        <input name="serie" type="hidden" size="3" value="naruto">
+	                        <input id="manga" class="btn btn-warning" name="manga" type="text" size="3" value="631">
+	                        
+			                <label onclick="escuro()" class="btn btn-default">Escuro</label>
+			                <label onclick="claro()" class="btn btn-default">Claro</label>
+	                        
+	                        <input id="paginaVolta" type="button" class="btn btn-success" value="<">
+	                        <input id="pagina" class="btn btn-warning"  name="pagina" type="text" size="3" value="1">
+	                        <input id="paginaVai" type="button" class="btn btn-success" value=">">
+			                
 
-                        <input name="serie" type="text" value="naruto">
-                        <input name="manga" type="text" value="631">
-                        <input name="pagina" type="text" value="1">
-
-                        <input type="button" class="btn btn-lg btn-success" value="<">
-                        <input type="button" class="btn btn-lg btn-success" value=">">
-
-
-                        <input type="submit" value="ir" class="btn btn-lg btn-danger"> 
-                    </div>
-                </form>
-            </div>
+	                    </div>
+	                </form>
+                
+	        			<a id="img" src="#" class="thumbnail">
+	            			
+	        			</a>     		
+             	
+             	
             
             
-        <a src="#" class="thumbnail">
-            <img src="http://img.mangahost.com/br/images/naruto/634/04.png">
-        </a>
+        
                 
         </div>
     </body>
