@@ -6,24 +6,26 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        <script src="jquery-1.11.0.min.js"></script>
+        <script src="js/jquery-1.11.0.min.js"></script>
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="bootstrap.min.css">
+        <link rel="stylesheet" href="css/bootstrap.min.css">
 
         <!-- Optional theme -->
-        <link rel="stylesheet" href="bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
 
         <!-- Latest compiled and minified JavaScript -->
-        <script src="bootstrap.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
         
         <style>
         	
         </style>
         
         <script type="text/javascript">
-        	
+        	fundoClaro = true;
+            
         	function loadImage(){
-        		
+                
+                var serie = $('#serie').val();
         		var manga  = $('#manga').val();
         		var pagina = $('#pagina').val();
         		
@@ -43,25 +45,31 @@
         			proximaPagina  = "0" + proximaPagina;
         		}
         		
-        		var url2 = "http://img.mangahost.com/br/images/naruto/" + manga + "/" + pagina + "-" +  proximaPagina + ".png";
+        		var url2 = "http://img.mangahost.com/br/images/" + serie + "/" + manga + "/" + pagina + "-" +  proximaPagina + ".png";
         		
         		$("#img").html("<img src='" + url1 + "'><img src='" + url2 + "'>")
-        		
-        		
-        		
-        	}
-        	
-        	function escuro(){
-        		$('body, #img').css("background-color", "black");
-        	}
-        	
-        	function claro(){
-        		$('body, #img').css("background-color", "");
+        			
         	}
         	
         	$(function(){
+                
+                $("#btnBrilho").click(function(){
+                    if(fundoClaro){
+                        $('body, #img').css("background-color", "black");
+                        fundoClaro = false;
+                    }else{
+                        $('body, #img').css("background-color", "");
+                        fundoClaro = true;
+                    }
+                });
+                
+                $("#btnFullScreen").click(function(){
+                    $('body').requestFullscreen();
+                });
+                    
+                
 
-	        	$('#paginaVai').click(function(){
+	        	$('#paginaVai,#img').click(function(){
 	        		var pagina = parseInt($('#pagina').val());
 	        		pagina = pagina + 1;
 	       			$('#pagina').val(pagina + "");
@@ -76,6 +84,47 @@
 	        		
 	        		loadImage()
 	        	});
+                
+                $('#mangaVai').click(function(){
+	        		var manga = parseInt($('#manga').val());
+	        		
+                    manga = manga + 1;
+	       			$('#pagina').val('1');
+	       			$('#manga').val(manga + "");
+	        		
+	        		loadImage()
+	        	});
+	        	
+	        	$('#mangaVolta').click(function(){
+	        		var manga = parseInt($('#manga').val());
+	        		manga = manga - 1;
+	       			$('#pagina').val('1');
+	       			$('#manga').val(manga + "");
+	        		
+	        		loadImage()
+	        	});
+                
+                $('#btnHide').click(function(){
+                    $("#pnlBotoes").hide();
+                    $("#btnShow").show();
+                });
+                
+                $('#btnShow').click(function(){
+                    $("#pnlBotoes").show();
+                    $("#btnShow").hide();
+                });
+                
+                $('#serie').change(function(){
+                    loadImage();
+                });
+                $('#manga').change(function(){
+                    loadImage();
+                });
+                $('#pagina').change(function(){
+                    loadImage();
+                });
+                
+                loadImage();
         		
         	});
         	
@@ -83,37 +132,80 @@
             
         </script>
               
+        <style>
+            #pnlBotoes{
+                text-align: center;
+                padding: 0.2em;
+            }
+            
+            #img{
+                padding: 0px;
+                margin: 0px;
+                border: none;
+            }
+            
+            #btnShow{
+                position: fixed;
+                top:0px;
+                left: 0px;
+                
+                opacity: 0.5;
+                
+                display: none;
+            }
+            
+            .espaco{
+                padding-left: 2em;
+            }
+            .form-control {
+                width:100px;
+                display: inline;
+                text-align: center;
+            }
+            
+            #manga{
+                width:6em;
+            }
+            #pagina{
+                width:3em;
+            }
+        </style>
+        
     </head>
 
     
     <body>
         <div class="content">
-	                <form method="get">
-	                    <div class="panel-body">
-	
-	                        <input name="serie" type="hidden" size="3" value="naruto">
-	                        <input id="manga" class="btn btn-warning" name="manga" type="text" size="3" value="631">
-	                        
-			                <label onclick="escuro()" class="btn btn-default">Escuro</label>
-			                <label onclick="claro()" class="btn btn-default">Claro</label>
-	                        
-	                        <input id="paginaVolta" type="button" class="btn btn-success" value="<">
-	                        <input id="pagina" class="btn btn-warning"  name="pagina" type="text" size="3" value="1">
-	                        <input id="paginaVai" type="button" class="btn btn-success" value=">">
-			                
+	                
+                        
+            <div id="pnlBotoes">
+                <input name="serie" class="form-control" type="text" size="3" value="naruto">
 
-	                    </div>
-	                </form>
-                
-	        			<a id="img" src="#" class="thumbnail">
-	            			
-	        			</a>     		
-             	
-             	
-            
-            
-        
-                
+                <a class="espaco"></a>
+
+                <input id="mangaVolta" type="button" class="btn btn-success" value="<">
+                <input id="manga" class="form-control" name="manga" type="text" size="3" value="631">
+                <input id="mangaVai" type="button" class="btn btn-success" value=">">
+
+                <a class="espaco"></a>
+
+                <input id="paginaVolta" type="button" class="btn btn-success" value="<">
+                <input id="pagina" class="form-control"  name="pagina" type="text" size="3" value="1">
+                <input id="paginaVai" type="button" class="btn btn-success" value=">">
+
+                <a class="espaco"></a>
+
+                <span id="btnFullScreen" class="btn btn-default glyphicon glyphicon-resize-full"></span>
+                <span id="btnBrilho" class="btn btn-default glyphicon glyphicon-adjust"></span>
+                <span id="btnHide" class="btn btn-warning glyphicon glyphicon-remove-circle"></span>
+            </div>
+
+            <span id="btnShow" class="btn btn-lg btn-default glyphicon glyphicon-align-justify"></span>
+
+            <a id="img" src="#" class="thumbnail">
+
+            </a>     		
+
         </div>
     </body>
     
